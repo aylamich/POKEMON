@@ -48,7 +48,7 @@ public class PokemonGameGUI extends JFrame {
 
     private void escolherTreinador(Treinador treinador) {
         this.treinadorEscolhido = treinador;
-        JOptionPane.showMessageDialog(this, "Você escolheu " + treinador.nome + "!");
+        JOptionPane.showMessageDialog(this, "Você escolheu " + treinador.getNome() + "!");
         iniciarMenuPrincipal();
     }
 
@@ -101,8 +101,8 @@ public class PokemonGameGUI extends JFrame {
         }
         if (treinadorEscolhido != null) {
             JOptionPane.showMessageDialog(this,
-                    "Treinador: " + treinadorEscolhido.nome + "\n" +
-                            "Gênero: " + treinadorEscolhido.genero + "\n" +
+                    "Treinador: " + treinadorEscolhido.getNome() + "\n" +
+                            "Gênero: " + treinadorEscolhido.getGenero() + "\n" +
                             "Pokemons: " + nomesPokemons );
         }
     }
