@@ -36,7 +36,7 @@ public class Main {
 
         // Menu Inicial - Escolher treinador
         Treinador treinadorEscolhido = escolherTreinador(scanner, ash, misty, brock);
-        System.out.println("Você escolheu " + treinadorEscolhido.nome + ".");
+        System.out.println("Você escolheu " + treinadorEscolhido.getNome() + ".");
 
         // Captura de Pokémon
         escolherPokemon(scanner, treinadorEscolhido, squirtle, bulbasaur, charmander);
@@ -154,8 +154,8 @@ public class Main {
 
 
     private static void mostrarInformacoesTreinador(Treinador treinadorEscolhido) {
-        System.out.println("\nInformações do Treinador: " + treinadorEscolhido.nome);
-        System.out.println("Gênero: " + treinadorEscolhido.genero);
+        System.out.println("\nInformações do Treinador: " + treinadorEscolhido.getNome());
+        System.out.println("Gênero: " + treinadorEscolhido.getGenero());
 
         // Listar Pokémon capturados
         if (!treinadorEscolhido.getPokemonsEscolhidos().isEmpty()) {

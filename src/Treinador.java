@@ -5,11 +5,11 @@ import java.io.*;
 
 
 public class Treinador implements Serializable {
-    String nome;
-    String genero;
-    Pokemon pokemonEscolhido;
-    int batalhasVencidas;
-    int batalhasTotais;
+    private String nome;
+    private String genero;
+    private Pokemon pokemonEscolhido;
+    private int batalhasVencidas;
+    private int batalhasTotais;
     public List<Pokemon> pokemonsEscolhidos = new ArrayList<>();
     private String arqSerialized = "";
 
