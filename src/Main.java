@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.List;
 import java.util.Scanner;
 import java.io.IOException;
@@ -5,6 +6,12 @@ import java.io.IOException;
 // Classe principal
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        // Negócio para interface
+        SwingUtilities.invokeLater(() -> {
+            PokemonGameGUI gui = new PokemonGameGUI();
+            gui.setVisible(true);
+        });
+
         while (true) {
             executarJogo(); // Executa o jogo
         }
@@ -24,11 +31,8 @@ public class Main {
 
         // Criar os Treinadores
         Treinador ash = new Treinador("Ash Ketchum", "Masculino", 0, 0);
-        // ash.serializarClasse();
         Treinador misty = new Treinador("Misty", "Feminino", 0, 0);
-        //misty.serializarClasse();
         Treinador brock = new Treinador("Brock", "Masculino", 0, 0);
-        // brock.serializarClasse();
 
         // Menu Inicial - Escolher treinador
         Treinador treinadorEscolhido = escolherTreinador(scanner, ash, misty, brock);
@@ -37,7 +41,6 @@ public class Main {
         // Captura de Pokémon
         escolherPokemon(scanner, treinadorEscolhido, squirtle, bulbasaur, charmander);
 
-        //treinadorEscolhido.registrarVitoria();
         treinadorEscolhido.serializarClasse();
 
         // Menu de ações
@@ -54,8 +57,7 @@ public class Main {
 
             switch (escolhaAcao) {
                 case 1:
-                    //mostrarInformacoesTreinador(treinadorEscolhido);
-                    // treinadorEscolhido.registrarVitoria();
+                    //mostrarInformacoesTreinador(treinadorEscolhido); isso foi quando não tinha serialização
                     Treinador infos = treinadorEscolhido.desserializarClasse();
 
                     //System.out.println("Imprimindo o deserealizado");
@@ -64,7 +66,7 @@ public class Main {
 
                 case 2:
                     try {
-                        // Aqui você chama o método batalhar com os pokémons
+                        // Aqui chama o método batalhar com os pokémons
                         batalhar(scanner, treinadorEscolhido, squirtle, bulbasaur, charmander);
                     } catch (PokemonNaoEncontradoException e) {
                         // Captura a exceção personalizada e exibe a mensagem de erro
@@ -79,7 +81,7 @@ public class Main {
                     // mostrarInformacoesPokemon(treinadorEscolhido); isso foi antes da serializacao
                     List<Pokemon> selecionados = treinadorEscolhido.getPokemonsEscolhidos();
 
-                    for (Pokemon pokemon : selecionados) {
+                    for (Pokemon pokemon : selecionados) { // tem que percorrer a lista
                         Pokemon deserializado = pokemon.desserializarClasse();
                         //System.out.println("Imprimindo o deserealizado");
                         System.out.println(deserializado);
@@ -100,6 +102,8 @@ public class Main {
         }
     }
 
+
+
     // Demais métodos permanecem iguais
     private static Treinador escolherTreinador(Scanner scanner, Treinador ash, Treinador misty, Treinador brock) {
         System.out.println("Escolha um treinador:");
@@ -115,7 +119,7 @@ public class Main {
             case 3: return brock;
             default:
                 System.out.println("Opção inválida! Escolhendo o Ash Ketchum por padrão.");
-                return ash; // Padrão se o usuário errar
+                return ash; // Padrão se o usuário for uma anta e clicar errado
         }
     }
 
@@ -187,7 +191,7 @@ public class Main {
             throw new PokemonNaoEncontradoException("Pokémon escolhido não encontrado. Escolha um Pokémon válido.");
         }
 
-        Pokemon pokemonJogador = treinadorEscolhido.pokemonsEscolhidos.get(escolhaJogador - 1);
+        Pokemon pokemonJogador = treinadorEscolhido.pokemonsEscolhidos.get(escolhaJogador - 1); // - 1 pois a lista começa em 0 o indice
 
         System.out.println("\nEscolha o Pokémon adversário:");
         for (int i = 0; i < pokemons.length; i++) {

@@ -63,7 +63,13 @@ public abstract class Pokemon implements Serializable {
         this.danoEspecial = danoEspecial;
     }
 
+    public String getAtaqueEspecialNome() {
+        return ataqueEspecialNome;
+    }
 
+    public void setAtaqueEspecialNome(String ataqueEspecialNome) {
+        this.ataqueEspecialNome = ataqueEspecialNome;
+    }
 
     // Método abstrato para ataque normal (a ser sobrescrito nas subclasses)
     public abstract void atacarNormal(Pokemon adversario);
