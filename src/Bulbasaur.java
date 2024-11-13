@@ -1,17 +1,33 @@
-public class Bulbasaur extends Pokemon{
-
-
-    public Bulbasaur(String nome,String tipagem, int nivel, int vida, int dano, int danoEspecial) {
-        super(nome, tipagem, nivel, vida, dano, danoEspecial);
-
+// Subclasse Bulbasaur
+class Bulbasaur extends Pokemon {
+    public Bulbasaur() {
+        super("Bulbasaur", "Planta", 100, 15, 30, "SolarBeam");
+        setArqSerialized("bulbasaur.txt");
     }
 
-    public void atacarSpecial() {
-        System.out.println(nome + "usou chicote de vinha");
+    @Override
+    public void atacarNormal(Pokemon adversario) {
+        // Ataque normal do Bulbasaur: "Vine Whip"
+        System.out.println(this.nome + " usou Vine Whip!");
+        adversario.vida -= this.danoNormal;
+        System.out.println(adversario.nome + " sofreu " + this.danoNormal + " de dano.");
     }
 
+    @Override
+    public void atacarEspecial(Pokemon adversario) {
+        // Ataque especial do Bulbasaur: "SolarBeam"
+        if (adversario.tipo.equals("Água")) {
+            // Planta é super eficaz contra Água (dano multiplicado por 2)
+            adversario.vida -= this.danoEspecial * 2;
+            System.out.println(this.nome + " usou SolarBeam (Planta) super eficaz!");
+        } else {
+            super.atacarEspecial(adversario);
+        }
+    }
 
-    public void exibirInfos(){
-        System.out.println("Bulbasaur é um Pokémon do tipo Planta e Venenoso da primeira geração, com uma semente nas costas que cresce conforme ele evolui. Ele evolui para Ivysaur no nível 16 e para Venusaur no nível 32. Suas habilidades incluem Overgrow, que aumenta o poder de movimentos de Planta quando sua vida está baixa. É vulnerável a ataques dos tipos Fogo, Voador, Gelo e Psíquico e pode usar ataques como Vine Whip e Razor Leaf");
+    @Override
+    public void exibirResumo() {
+        super.exibirResumo();
+        System.out.println("Bulbasaur é um Pokémon da região Kanto. Ele tem um bulbo nas costas que se transforma em uma planta.");
     }
 }

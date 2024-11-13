@@ -1,37 +1,63 @@
-public class Batalha {
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.Random;
 
-    public static void realizarBatalha(Treinador treinador1, Treinador treinador2) {
-        try {
-            // ve se algum treinador não possui pokemon para jogar a exception
-            if (treinador1.getPokemons().isEmpty() || treinador2.getPokemons().isEmpty()) {
-                throw new TreinadorSemPokemonException("Um dos treinadores não tem Pokémon para batalhar!");
-                // throw new joga o erro para não continuar a execução normal e passa a mensagem personalizada
-                // new TreinadorSemPokemonException(...): cria uma nova instância da exceção personalizada
-                // o erro específico é do tipo TreinadorSemPokemonException
-            }
+// Classe Batalha
+class Batalha {
+    Pokemon pokemon1;
+    Pokemon pokemon2;
+    Treinador treinador; //associação
 
-            Pokemon pokemon1 = treinador1.getPokemons().get(0);
-            Pokemon pokemon2 = treinador2.getPokemons().get(0);
-            // seleciona o primeiro pokemon de cada treinador para batalha
+    public Batalha(Pokemon pokemon1, Pokemon pokemon2, Treinador treinador) {
+        this.pokemon1 = pokemon1;
+        this.pokemon2 = pokemon2;
+        this.treinador = treinador;
+    }
 
-            System.out.println(treinador1.getNome() + " escolheu " + pokemon1.getNome() + "!");
-            System.out.println(treinador2.getNome() + " escolheu " + pokemon2.getNome() + "!");
+    public void batalha(Scanner scanner) throws IOException {
+        while (pokemon1.vida > 0 && pokemon2.vida > 0) {
+            System.out.println("\nSeu Pokémon: " + pokemon1.nome + " (Vida: " + pokemon1.vida + ")");
+            System.out.println("Pokémon Adversário: " + pokemon2.nome + " (Vida: " + pokemon2.vida + ")");
+            System.out.println("\nEscolha sua ação:");
+            System.out.println("1. Ataque Normal");
+            System.out.println("2. Ataque Especial");
+            int escolha = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer
 
-            // pra ver quem ganhou dependendo do nivel
-            if (pokemon1.getNivel() > pokemon2.getNivel()) {
-                System.out.println(pokemon1.getNome() + " venceu a batalha!");
-            } else if (pokemon1.getNivel() < pokemon2.getNivel()) {
-                System.out.println(pokemon2.getNome() + " venceu a batalha!");
+            // Ação do jogador
+            if (escolha == 1) {
+                pokemon1.atacarNormal(pokemon2);
             } else {
-                System.out.println("A batalha terminou empatada!");
+                pokemon1.atacarEspecial(pokemon2);
             }
 
-        } catch (TreinadorSemPokemonException e) {
-            // se o treinador nao tem pokemon cai nessa exception e exibe a mensagem personalizada
-            System.out.println("Erro: " + e.getMessage());
-        //} catch (BatalhaException e) {
-            // captura outras exceções relacionadas à batalha
-           // System.out.println("Ocorreu um erro de batalha: ");
+            System.out.println(pokemon1.nome + " (Vida: " + pokemon1.vida + ") | " + pokemon2.nome + " (Vida: " + pokemon2.vida + ")");
+
+            if (pokemon2.vida <= 0) {
+                System.out.println("\nA batalha terminou!");
+                System.out.println("Você venceu! " + pokemon2.nome + " foi derrotado.");
+                treinador.registrarVitoria();
+                break;
+            }
+
+            // Ação do adversário (ataque aleatório)
+            Random random = new Random();
+            int ataqueAdversario = random.nextInt(2) + 1; // Escolher aleatoriamente entre 1 e 2 (ataque normal e especial)
+
+            if (ataqueAdversario == 1) {
+                pokemon2.atacarNormal(pokemon1);
+            } else {
+                pokemon2.atacarEspecial(pokemon1);
+            }
+
+            System.out.println(pokemon1.nome + " (Vida: " + pokemon1.vida + ") | " + pokemon2.nome + " (Vida: " + pokemon2.vida + ")");
+
+            if (pokemon1.vida <= 0) {
+                System.out.println("\nA batalha terminou!");
+                System.out.println("Você perdeu! " + pokemon1.nome + " foi derrotado.");
+                treinador.registrarDerrota();
+                break;
+            }
         }
     }
 }

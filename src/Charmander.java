@@ -1,20 +1,33 @@
-public class Charmander extends Pokemon {
-
-
-    public Charmander(String nome,String tipagem, int nivel, int vida, int dano, int danoEspecial) {
-        super(nome, tipagem, nivel, vida, dano, danoEspecial);
-
+// Subclasse Charmander
+class Charmander extends Pokemon {
+    public Charmander() {
+        super("Charmander", "Fogo", 100, 18, 35, "Flamethrower");
+        setArqSerialized("charmander.txt");
     }
 
-    public void atacar(){
-        System.out.println(nome +"Usou arranhão");
+    @Override
+    public void atacarNormal(Pokemon adversario) {
+        // Ataque normal do Charmander: "Scratch"
+        System.out.println(this.nome + " usou Scratch!");
+        adversario.vida -= this.danoNormal;
+        System.out.println(adversario.nome + " sofreu " + this.danoNormal + " de dano.");
     }
 
-    public void atacarSpecial(){
-        System.out.println(nome + "usou Flamethrower (Lança-Chamas)");
+    @Override
+    public void atacarEspecial(Pokemon adversario) {
+        // Ataque especial do Charmander: "Flamethrower"
+        if (adversario.tipo.equals("Planta")) {
+            // Fogo é super eficaz contra Planta (dano multiplicado por 1.5)
+            adversario.vida -= this.danoEspecial * 1.5;
+            System.out.println(this.nome + " usou Flamethrower (Fogo) super eficaz!");
+        } else {
+            super.atacarEspecial(adversario);
+        }
     }
 
-    public void exibirInfos(){
-        System.out.println("Charmander é um Pokémon do tipo Fogo da primeira geração. Ele é um pequeno lagarto laranja com uma chama na cauda, que representa sua energia vital. Evolui para Charmeleon no nível 16 e depois para Charizard no nível 36. Charmander é vulnerável a ataques de Água, Pedra e Terra e possui habilidades como Blaze, que aumenta seus ataques de fogo quando está com pouca vida.");
+    @Override
+    public void exibirResumo() {
+        super.exibirResumo();
+        System.out.println("Charmander é um Pokémon da região Kanto. Ele carrega uma chama na ponta de sua cauda.");
     }
 }
